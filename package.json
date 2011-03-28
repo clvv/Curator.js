@@ -1,0 +1,46 @@
+{
+  "name": "curator",
+  "description": "A flexible process monitoring and management framework.",
+  "version": "0.0.1",
+  "author": "Wei Dai <x@wei23.net>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/clvv/Curator.js.git"
+  },
+  "keywords": [
+    "curator",
+    "process",
+    "monitoring",
+    "management"
+  ],
+  "deoendencies": {
+    "vows": ">= 0.5.8"
+  },
+  "main": "./lib/index",
+  "scripts": {
+    "test": "vows --spec"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "modules": {
+    "index.js": "lib/index.js",
+    "helpers.js": "lib/helpers.js",
+    "behaviors/dynamicControl.js": "lib/behaviors/dynamicControl.js",
+    "behaviors/setInterval.js": "lib/behaviors/setInterval.js",
+    "behaviors/autoRestart.js": "lib/behaviors/autoRestart.js",
+    "behaviors/behaviors.js": "lib/behaviors/behaviors.js",
+    "behaviors/watchGroupStat.js": "lib/behaviors/watchGroupStat.js",
+    "system/poller.js": "lib/system/poller.js",
+    "system/procPoller.js": "lib/system/procPoller.js",
+    "core/watchGroup.js": "lib/core/watchGroup.js",
+    "core/watch.js": "lib/core/watch.js",
+    "core/core.js": "lib/core/core.js"
+  },
+  "files": [
+    ""
+  ]
+}
