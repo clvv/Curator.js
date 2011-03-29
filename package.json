@@ -23,9 +23,6 @@
   "engines": {
     "node": ">= 0.4.0"
   },
-  "directories": {
-    "lib": "./lib"
-  },
   "modules": {
     "index.js": "lib/index.js",
     "helpers.js": "lib/helpers.js",
@@ -39,8 +36,5 @@
     "core/watchGroup.js": "lib/core/watchGroup.js",
     "core/watch.js": "lib/core/watch.js",
     "core/core.js": "lib/core/core.js"
-  },
-  "files": [
-    ""
-  ]
+  }
 }
