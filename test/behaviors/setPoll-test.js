@@ -7,7 +7,7 @@ var Curator = require('curator');
 var watch = Curator.newWatch(function () {
     this.name = 'test-setPoll';
     this.startCommand = 'node';
-    this.checkInterval = 200;
+    this.checkInterval = 50;
     setPoll(this);
 });
 
@@ -23,8 +23,8 @@ vows.describe('behaviors/setPoll').addBatch({
         '| a watch instace with setPoll applied after start': {
             topic: function () {
                 vows = this;
-                watch.on('new-stat', function () {
-                    watch.on('new-stat', vows.callback);
+                watch.once('new-stat', function () {
+                    watch.once('new-stat', vows.callback);
                 });
                 watch.start();
             },

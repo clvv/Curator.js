@@ -8,7 +8,7 @@ var watchGroup = Curator.newWatchGroup(function () {
     this.name = 'test-setGroupPoll';
     this.startCommand = 'node';
     this.startProcesses = 2;
-    this.checkInterval = 200;
+    this.checkInterval = 50;
     setGroupPoll(this);
 });
 
@@ -24,8 +24,8 @@ vows.describe('behaviors/setGroupPoll').addBatch({
         '| a watchGroup instace with setGroupPoll applied after start': {
             topic: function () {
                 vows = this;
-                watchGroup.on('new-stat', function () {
-                    watchGroup.on('new-stat', vows.callback);
+                watchGroup.once('new-stat', function () {
+                    watchGroup.once('new-stat', vows.callback);
                 });
                 watchGroup.start();
             },
