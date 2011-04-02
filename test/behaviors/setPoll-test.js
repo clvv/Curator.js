@@ -7,7 +7,7 @@ var Curator = require('curator');
 var watch = Curator.newWatch(function () {
     this.name = 'test-setPoll';
     this.startCommand = 'node';
-    this.checkInterval = 40;
+    this.checkInterval = 200;
     setPoll(this);
 });
 
