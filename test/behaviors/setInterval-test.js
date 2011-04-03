@@ -11,39 +11,54 @@ var setInterval = require('curator/lib/behaviors/setInterval');
 var watch = Curator.newWatch(function () {
     this.name = 'test-watch';
     this.startCommand = 'node';
+    this.called = false;
     setInterval(this, function () {
-        this.called = true;
-        this.stop();
+        if ( ! this.called) {
+            this.called = true;
+            this.stop();
+        }
     }, 0);
 });
 
 var watchWithStartGrace = Curator.newWatch(function () {
     this.name = 'test-watch';
     this.startCommand = 'node';
+    this.called = false;
     this.on('started', Curator.helpers.stopper);
-    setInterval(this, function (watch) {
+    Curator.setInterval(this, function (watch) {
         this.called = true; // This shouldn't be called
         this.stop();
-    }, 0, 100);
+    }, 0, 1000);
 });
 
 vows.describe('behaviors/setInterval').addBatch({
-    'A watch instance with `setInterval(this, callback, 0)` applied after start': {
+    'A watch instance with `setInterval(this, callback, 0)` applied': {
         topic: function () {
-            watch.on('exit', this.callback);
-            process.nextTick(function () { watch.start() });
+            return watch;
         },
-        'callback should be called': function () {
-            assert.isTrue(watch.called);
+        'has clearIntervals function': function () {
+            assert.isFunction(watch.clearIntervals);
         },
+        'has clearTimouts function': function () {
+            assert.isFunction(watch.clearTimeouts);
+        },
+        '| after .start()': {
+            topic: function () {
+                watch.on('exit', this.callback);
+                watch.start()
+            },
+            'callback should be called': function () {
+                assert.isTrue(this.called);
+            }
+        }
     },
-    'A watch instance with `setInterval(this, callback, 0, 100)` applied after start': {
+    'A watch instance with `setInterval(this, callback, 0, 1000)` applied after start': {
         topic: function () {
             watchWithStartGrace.on('exit', this.callback);
             watchWithStartGrace.start();
         },
         'callback shouldn\'t be called': function () {
-            assert.isUndefined(watchWithStartGrace.called);
+            assert.isFalse(this.called);
         }
     }
 }).export(module);
