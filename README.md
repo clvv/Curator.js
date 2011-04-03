@@ -19,7 +19,6 @@ See examples/*
 Todo
 ----
 
-* Fix random and weird test fail.
 * Implement timeline conditions like god-rb.
 * Implement Apache MPM like dynamic control.
 
