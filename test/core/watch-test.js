@@ -46,7 +46,8 @@ vows.describe('core/watch.js').addBatch({
             '| after .stop() on exit event': {
                 topic: function () {
                     watch.on('exit', this.callback);
-                    process.nextTick(Curator.helpers.stopper.bind(watch));
+                    watch.stop();
+                    // process.nextTick(Curator.helpers.stopper.bind(watch));
                 },
                 'is not running': function () {
                     assert.isFalse(watch.running);
