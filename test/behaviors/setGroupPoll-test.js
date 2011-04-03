@@ -8,7 +8,7 @@ var watchGroup = Curator.newWatchGroup(function () {
     this.name = 'test-setGroupPoll';
     this.startCommand = 'node';
     this.startProcesses = 2;
-    this.checkInterval = 30;
+    this.checkInterval = 80;
     setGroupPoll(this);
 });
 
