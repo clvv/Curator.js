@@ -1,7 +1,7 @@
 {
   "name": "curator",
   "description": "A flexible process monitoring and management framework.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Wei Dai <x@wei23.net>",
   "repository": {
     "type": "git",
