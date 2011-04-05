@@ -11,6 +11,14 @@ Features
 
 Run `vows --spec` for more details.
 
+Install
+-------
+
+You can install Curator.js using npm.
+
+    npm install curator
+
+
 Examples
 --------
 
