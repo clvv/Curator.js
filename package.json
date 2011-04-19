@@ -36,5 +36,10 @@
     "core/watchGroup.js": "lib/core/watchGroup.js",
     "core/watch.js": "lib/core/watch.js",
     "core/core.js": "lib/core/core.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "directories": {
+    "lib": "lib"
   }
 }
