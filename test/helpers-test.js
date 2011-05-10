@@ -1,55 +1,53 @@
-var vows = require('vows');
-var assert = require('assert');
-
-var helpers = require('curator/lib/helpers');
-
-vows.describe('helpers').addBatch({
-  'The helpers object': {
-    topic: helpers,
-    'has a starter function': function () {
-      assert.isFunction(helpers.starter);
+(function() {
+  var assert, helpers, vows;
+  vows = require('vows');
+  assert = require('assert');
+  helpers = require('curator/lib/helpers');
+  vows.describe('helpers').addBatch({
+    'The helpers object': {
+      topic: helpers,
+      'has a starter function': function() {
+        return assert.isFunction(helpers.starter);
+      },
+      'has a stopper function': function() {
+        return assert.isFunction(helpers.stopper);
+      },
+      'has a print function': function() {
+        return assert.isFunction(helpers.print);
+      },
+      'has a exec funtion': function() {
+        return assert.isFunction(helpers.exec);
+      }
     },
-    'has a stopper function': function () {
-      assert.isFunction(helpers.stopper);
+    'The starter function': {
+      topic: function() {
+        var testObject;
+        vows = this;
+        testObject = {
+          start: function() {
+            return vows.callback(true);
+          }
+        };
+        return helpers.starter(testObject);
+      },
+      'calls start on the first argument or the object bound to it': function(value) {
+        return assert.isTrue(value);
+      }
     },
-    'has a print function': function () {
-      assert.isFunction(helpers.print);
-    },
-    'has a exec funtion': function () {
-      assert.isFunction(helpers.exec);
+    'The stopper function': {
+      topic: function() {
+        var testObject;
+        vows = this;
+        testObject = {
+          stop: function() {
+            return vows.callback(true);
+          }
+        };
+        return helpers.stopper(testObject);
+      },
+      'calls stop on the first argument or the object bound to it': function(value) {
+        return assert.isTrue(value);
+      }
     }
-  },
-  'The starter function': {
-    topic: function () {
-      vows = this;
-      testObject = {
-        start: function () {
-          vows.callback(true);
-        }
-      };
-      helpers.starter(testObject);
-    },
-    'calls start on the first argument or the object bound to it': function (value) {
-      assert.isTrue(value);
-    }
-  },
-  'The stopper function': {
-    topic: function () {
-      vows = this;
-      testObject = {
-        stop: function () {
-          vows.callback(true);
-        }
-      };
-      helpers.stopper(testObject);
-    },
-    'calls stop on the first argument or the object bound to it': function (value) {
-      assert.isTrue(value);
-    }
-  },
-  //'The exec function': {
-  //topic: function () {
-
-  //}
-  //}
-}).export(module);
+  })["export"](module);
+}).call(this);

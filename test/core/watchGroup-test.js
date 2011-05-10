@@ -1,83 +1,81 @@
-var vows = require('vows');
-var assert = require('assert');
-
-// Make our test instances global because object passing in vows is hell.
-// Until another solution comes up, we assum here that instance creation won't
-// fail.
-var Curator = require('curator');
-var watchGroup = Curator.newWatchGroup(function () {
-  this.name = 'test-group';
-  this.startProcesses = 2;
-  this.startCommand = 'node';
-});
-
-vows.describe('core/watchGroup.js').addBatch({
-  'A watchGroup instance': {
-    topic: watchGroup,
-    'is an object': function () {
-      assert.isObject(watchGroup);
-    },
-    'responds to start': function () {
-      assert.isFunction(watchGroup.start);
-    },
-    'responds to stop': function () {
-      assert.isFunction(watchGroup.stop);
-    },
-    'responds to create': function () {
-      assert.isFunction(watchGroup.create);
-    },
-    'responds to spawn': function () {
-      assert.isFunction(watchGroup.spawn);
-    },
-    'has a list of watch instances': function () {
-      assert.isArray(watchGroup.watchList);
-    },
-    '| after `.start()` on all-running event': {
-      topic: function () {
-        watchGroup.once('all-running', this.callback);
-        watchGroup.start();
+(function() {
+  var Curator, assert, vows, watchGroup;
+  vows = require('vows');
+  assert = require('assert');
+  Curator = require('curator');
+  watchGroup = Curator.newWatchGroup(function() {
+    this.name = 'test-group';
+    this.startProcesses = 2;
+    return this.startCommand = 'node';
+  });
+  vows.describe('core/watchGroup.js').addBatch({
+    'A watchGroup instance': {
+      topic: watchGroup,
+      'is an object': function() {
+        return assert.isObject(watchGroup);
       },
-      'has two watch instances in watchList': function () {
-        assert.equal(watchGroup.watchList.length, 2);
+      'responds to start': function() {
+        return assert.isFunction(watchGroup.start);
       },
-      'has all processes running': function () {
-        watchGroup.watchList.forEach(function (watch) {
-          assert.isTrue(watch.running);
-        });
+      'responds to stop': function() {
+        return assert.isFunction(watchGroup.stop);
       },
-      '| after `.create(2)` and `.start()` on all-running event': {
-        topic: function () {
+      'responds to create': function() {
+        return assert.isFunction(watchGroup.create);
+      },
+      'responds to spawn': function() {
+        return assert.isFunction(watchGroup.spawn);
+      },
+      'has a list of watch instances': function() {
+        return assert.isArray(watchGroup.watchList);
+      },
+      '| after `.start()` on all-running event': {
+        topic: function() {
           watchGroup.once('all-running', this.callback);
-          watchGroup.create(2);
           watchGroup.start();
         },
-        'has two more watch instances': function () {
-          assert.equal(watchGroup.watchList.length, 4);
+        'has two watch instances in watchList': function() {
+          return assert.equal(watchGroup.watchList.length, 2);
         },
-        '| after `.spawn(2)` on all-running event': {
-          topic: function () {
+        'has all processes running': function() {
+          return watchGroup.watchList.forEach(function(watch) {
+            return assert.isTrue(watch.running);
+          });
+        },
+        '| after `.create(2)` and `.start()` on all-running event': {
+          topic: function() {
             watchGroup.once('all-running', this.callback);
-            watchGroup.spawn(2);
+            watchGroup.create(2);
+            watchGroup.start();
           },
-          'has two more watch instances': function () {
-            assert.equal(watchGroup.watchList.length, 6);
+          'has two more watch instances': function() {
+            return assert.equal(watchGroup.watchList.length, 4);
           },
-          '| after `.stop()` and on non-running event': {
-            topic: function () {
-              watchGroup.on('non-running', this.callback);
-              watchGroup.stop();
+          '| after `.spawn(2)` on all-running event': {
+            topic: function() {
+              watchGroup.once('all-running', this.callback);
+              return watchGroup.spawn(2);
             },
-            'has no running children': function () {
-              watchGroup.watchList.forEach(function (watch) {
-                assert.isFalse(watch.running);
-              });
+            'has two more watch instances': function() {
+              return assert.equal(watchGroup.watchList.length, 6);
             },
-            'has running process count zero': function () {
-              assert.equal(watchGroup.running, 0);
+            '| after `.stop()` and on non-running event': {
+              topic: function() {
+                watchGroup.on('non-running', this.callback);
+                watchGroup.stop();
+              },
+              'has no running children': function() {
+                return watchGroup.watchList.forEach(function(watch) {
+                  return assert.isFalse(watch.running);
+                });
+              },
+              'has running process count zero': function() {
+                return assert.equal(watchGroup.running, 0);
+              }
             }
           }
         }
       }
     }
-  }
-}).export(module);
+  })["export"](module);
+}).call(this);
