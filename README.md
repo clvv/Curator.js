@@ -24,9 +24,16 @@ Examples
 
 See examples/*
 
+Messing with the Code
+---------------------
+Curator is written in coffee-script. All source code is located under `src`
+directory. After you make some change in `src`, you can rebuild all javascript
+files with `cake build`. Make sure you run `vows` to test out your change.
+
 Todo
 ----
 
+* More elaborate API documentations.
 * Implement timeline conditions like god-rb.
 * Implement Apache MPM like dynamic control.
 
