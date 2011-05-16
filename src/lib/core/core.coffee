@@ -1,10 +1,10 @@
-helpers = exports.helpers = require 'curator/lib/helpers'
+helpers = require 'curator/lib/helpers'
 
-exports.newWatch = require('curator/lib/core/watch').newWatch
-exports.newWatchGroup = require('curator/lib/core/watchGroup').newWatchGroup
-
-exports.watchList = [] # Array of watch instances
-
-exports.startAll = helpers.startAll
-exports.stopAll = helpers.stopAll
-exports.filter = helpers.filter
+module.exports =
+  helpers       : helpers
+  newWatch      : require('curator/lib/core/watch').newWatch
+  newWatchGroup : require('curator/lib/core/watchGroup').newWatchGroup
+  watchList     : [] # Array of watch instances
+  startAll      : helpers.startAll
+  stopAll       : helpers.stopAll
+  filter        : helpers.filter
