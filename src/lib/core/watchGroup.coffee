@@ -41,8 +41,6 @@ class WatchGroup extends EventEmitter
   create: (n) ->
     self = @
 
-    created = []
-
     # Function that initialize each watch instance(the same single watch
     # instance) and add event hooks so that we have group wise events. The
     # instance that emitted the event will be appended to the list of arguments
@@ -56,9 +54,8 @@ class WatchGroup extends EventEmitter
       @on 'exit', self.exitHandler
       self.emit 'load', @
 
-    created.push newWatch.call @, initializeWatch for i in [1..n]
-
-    created
+    # Create an array of watch objects and return it.
+    (newWatch.call @, initializeWatch for i in [1..n])
 
   spawn: (n) -> @create(n).forEach helpers.starter
 

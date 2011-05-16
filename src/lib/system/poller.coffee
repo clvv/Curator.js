@@ -26,8 +26,7 @@ exports.poll = (watch, callback) ->
 
     watch.stat = stat
 
-    if typeof callback is 'function'
-      callback.call watch, watch.stat
+    callback?.call? watch, watch.stat
 
     watch.emit('new-stat')
 

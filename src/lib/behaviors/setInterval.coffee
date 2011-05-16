@@ -11,9 +11,9 @@ exitHandler = (code, signal) ->
   @clearIntervals()
 
 module.exports = (watch, func, interval, startGrace) ->
-  startGrace = watch.startGrace if not startGrace and watch.startGrace
-  watch.intervals = [] if typeof watch.intervals is 'undefined'
-  watch.startGraceTimeouts = [] if typeof watch.startGraceTimeouts is 'undefined'
+  startGrace ?= watch.startGrace if watch.startGrace
+  watch.intervals ?= []
+  watch.startGraceTimeouts ?= []
 
   # Setup the check interval after the process starts.
   watch.on 'started', ->

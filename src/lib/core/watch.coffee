@@ -36,10 +36,10 @@ class Watch extends EventEmitter
   stop: -> @child.kill()
 
 Watch::__defineGetter__ 'pid', ->
-  if typeof @child is 'undefined'
-    null
-  else
+  if @child?
     @child.pid
+  else
+    null
 
 Watch::__defineGetter__ 'running', -> @pid?
 

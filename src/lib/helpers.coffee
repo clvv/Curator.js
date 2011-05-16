@@ -3,14 +3,14 @@ child_process = require 'child_process'
 # Helpers, eliminate unnecessary anonymous functions.
 module.exports = exports.helpers = helpers =
   starter: (watch) ->
-    watch = @ unless watch
+    watch ?= @
     try
       watch.start()
     catch err
       false
 
   stopper: (watch) ->
-    watch = @ unless watch
+    watch ?= @
     try
       watch.stop()
     catch err
