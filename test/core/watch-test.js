@@ -19,11 +19,29 @@
       'responds to stop': function() {
         return assert.isFunction(watch.stop);
       },
+      'responds to use': function() {
+        return assert.isFunction(watch.use);
+      },
       'has a null pid': function() {
         return assert.isNull(watch.pid);
       },
       'is not running': function() {
         return assert.isFalse(watch.running);
+      },
+      '| call `.use()` with two functions': {
+        topic: function() {
+          return watch.use(function() {
+            return this.useCalled = true;
+          }, [
+            function(a, b, c) {
+              return this.arrayFunctionCalling = a + b + c;
+            }, 1, 2, 3
+          ]);
+        },
+        '| functions should be called': function() {
+          assert.isTrue(watch.useCalled);
+          return assert.equal(watch.arrayFunctionCalling, 6);
+        }
       },
       '| after `.start()` on started event': {
         topic: function() {
@@ -57,6 +75,18 @@
             return assert.isFalse(watch.stderr.readable);
           }
         }
+      }
+    },
+    'A watch object created with miminalist config func, after call use with a function': {
+      topic: function() {
+        var watch2;
+        watch2 = Curator.newWatch();
+        return watch2.use(function() {
+          return this.useTest = true;
+        });
+      },
+      'should behave the same way': function(watch2) {
+        return assert.isTrue(watch2.useTest);
       }
     }
   })["export"](module);

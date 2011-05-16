@@ -10,7 +10,7 @@ exitHandler = (code, signal) ->
   @clearTimeouts()
   @clearIntervals()
 
-module.exports = (watch, func, interval, startGrace) ->
+module.exports = (watch = @, func, interval, startGrace) ->
   startGrace ?= watch.startGrace if watch.startGrace
   watch.intervals ?= []
   watch.startGraceTimeouts ?= []

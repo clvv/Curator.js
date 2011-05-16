@@ -8,7 +8,7 @@ helpers = require 'curator/lib/helpers'
 # Not exported because this shouldn't be called directly.
 class Watch extends EventEmitter
   constructor: (func) ->
-    func.call @
+    func?.call?(@)
 
   start: ->
     return false if @running
@@ -34,6 +34,15 @@ class Watch extends EventEmitter
     @
 
   stop: -> @child.kill()
+
+  use: (arg...) =>
+    # Apply each functions passed in
+    for each in arg
+      each?.call?(@)
+      each[0].apply(@, each[1...]) if each instanceof Array
+    # Return the watch object
+    @
+
 
 Watch::__defineGetter__ 'pid', ->
   if @child?

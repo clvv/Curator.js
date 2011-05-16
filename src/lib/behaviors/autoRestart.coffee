@@ -10,7 +10,7 @@ exitHandler = (code, signal) ->
 
 exitHandlerSimple = (code, signal) -> @start()
 
-module.exports = (watch) ->
+module.exports = (watch = @) ->
   if watch.maxRetry > 0
     watch.once 'started', startedHandler
     watch.on 'exit', exitHandler

@@ -7,7 +7,7 @@ initialStat =
   total_ipcpu: 0
   count: 0
 
-module.exports = (watchGroup) ->
+module.exports = (watchGroup = @) ->
 
   watchGroup.stat = initialStat
 
@@ -30,7 +30,7 @@ module.exports = (watchGroup) ->
       watchGroup.emit 'new-stat'
 
   watchGroup.on 'load', (watch) ->
-    watch.checkInterval = watchGroup.checkInterval;
+    watch.checkInterval = watchGroup.checkInterval
     watch.on 'new-stat', newStatHandler
 
   setInterval (->

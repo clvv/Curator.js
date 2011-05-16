@@ -1,4 +1,4 @@
-module.exports = (watchGroup) ->
+module.exports = (watchGroup = @) ->
   watchGroup.on 'new-stat', ->
     watchGroup.spareProcesses = 0
     watchGroup.watchList.forEach (watch) ->

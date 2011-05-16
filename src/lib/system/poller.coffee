@@ -5,8 +5,7 @@ procPoller = require 'curator/lib/system/procPoller'
 
 exports.ipcpu = procPoller.ipcpu
 
-exports.poll = (watch, callback) ->
-  watch ?= @
+exports.poll = (watch = @, callback) ->
   return false unless watch.pid
 
   procPoller.poll watch.pid, (err, stat) ->
