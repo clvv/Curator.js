@@ -1,7 +1,7 @@
 {print} = require 'sys'
 {spawn, exec} = require 'child_process'
 
-task 'build', 'Build scriptbroadcast', ->
+task 'build', 'Build Curator', ->
     options = ['-c', '-o', './', 'src']
     coffee = spawn 'coffee', options
     coffee.stdout.on 'data', (data) -> print data.toString()
