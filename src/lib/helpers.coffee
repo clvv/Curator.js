@@ -2,15 +2,13 @@ child_process = require 'child_process'
 
 # Helpers, eliminate unnecessary anonymous functions.
 module.exports = exports.helpers = helpers =
-  starter: (watch) ->
-    watch ?= @
+  starter: (watch = @) ->
     try
       watch.start()
     catch err
       false
 
-  stopper: (watch) ->
-    watch ?= @
+  stopper: (watch = @) ->
     try
       watch.stop()
     catch err

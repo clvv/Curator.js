@@ -85,7 +85,7 @@
           return this.useTest = true;
         });
       },
-      'should behave the same way': function(watch2) {
+      'should return itself and the function should be called': function(watch2) {
         return assert.isTrue(watch2.useTest);
       }
     }
