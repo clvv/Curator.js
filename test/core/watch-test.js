@@ -12,12 +12,14 @@
     this.name = 'test-with-options';
     this.startCommand = 'node -e process.env.curator';
     this.startOptions = {
-      curator: 'success'
+      env: {
+        curator: 'success'
+      }
     };
     _ref = process.env;
     for (key in _ref) {
       value = _ref[key];
-      this.startOptions[key] = value;
+      this.startOptions.env[key] = value;
     }
     return this.on('data', function(data) {
       if (/success/.test(data.toString())) {

@@ -13,8 +13,8 @@ watch = Curator.newWatch ->
 watchWithOptions = Curator.newWatch ->
   @name = 'test-with-options'
   @startCommand = 'node -e process.env.curator'
-  @startOptions = curator: 'success'
-  @startOptions[key] = value for key, value of process.env
+  @startOptions = env: curator: 'success'
+  @startOptions.env[key] = value for key, value of process.env
   @on 'data', (data) ->
     @optionsSuccess = true if /success/.test data.toString()
 
