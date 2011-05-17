@@ -11,25 +11,22 @@ class Watch extends EventEmitter
     func?.call?(@)
 
   start: ->
-    return false if @running
+    # Return if it is already running.
+    return @ if @running
 
     @emit 'start'
 
-    @child = helpers.exec @startCommand, (err, stdout, stderr) =>
-      @emit 'finish', err, stdout, stderr
+    @child = helpers.exec @startCommand, @startOptions
 
+    # Setup hooks
     @stdin = @child.stdin
     @stdout = @child.stdout
     @stderr = @child.stderr
-
     @stdout.on 'data', (data) => @emit 'data', data
-
     @stderr.on 'data', (data) => @emit 'err', data
-
-    @emit 'started'
-
     @child.on 'exit', (code, signal) => @emit 'exit', code, signal
 
+    @emit 'started'
     # Return the watch object itself.
     @
 
@@ -45,7 +42,7 @@ class Watch extends EventEmitter
 
 
 Watch::__defineGetter__ 'pid', ->
-  if @child?
+  if @child?.pid?
     @child.pid
   else
     null

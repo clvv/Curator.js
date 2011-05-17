@@ -10,6 +10,14 @@ watch = Curator.newWatch ->
   @name = 'test-watch'
   @startCommand = 'node'
 
+watchWithOptions = Curator.newWatch ->
+  @name = 'test-with-options'
+  @startCommand = 'node -e process.env.curator'
+  @startOptions = curator: 'success'
+  @startOptions[key] = value for key, value of process.env
+  @on 'data', (data) ->
+    @optionsSuccess = true if /success/.test data.toString()
+
 vows
   .describe('core/watch.js')
   .addBatch
@@ -64,9 +72,16 @@ vows
             assert.isFalse watch.stderr.readable
     'A watch object created with miminalist config func, after call use with a function':
       topic: ->
-        watch2 = Curator.newWatch()
-        watch2.use ->
+        watchWithUse = Curator.newWatch()
+        watchWithUse.use ->
           @useTest = true
-      'should return itself and the function should be called': (watch2) ->
-        assert.isTrue watch2.useTest
+      'should return itself and the function should be called': (watchWithUse) ->
+        assert.isTrue watchWithUse.useTest
+    'A watch object started with custom options':
+      topic: ->
+        watchWithOptions.on 'exit', @callback
+        watchWithOptions.start()
+        return
+      'should have custom options applied': ->
+        assert.isTrue watchWithOptions.optionsSuccess
   .export module

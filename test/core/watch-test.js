@@ -1,11 +1,29 @@
 (function() {
-  var Curator, assert, vows, watch;
+  var Curator, assert, vows, watch, watchWithOptions;
   vows = require('vows');
   assert = require('assert');
   Curator = require('curator');
   watch = Curator.newWatch(function() {
     this.name = 'test-watch';
     return this.startCommand = 'node';
+  });
+  watchWithOptions = Curator.newWatch(function() {
+    var key, value, _ref;
+    this.name = 'test-with-options';
+    this.startCommand = 'node -e process.env.curator';
+    this.startOptions = {
+      curator: 'success'
+    };
+    _ref = process.env;
+    for (key in _ref) {
+      value = _ref[key];
+      this.startOptions[key] = value;
+    }
+    return this.on('data', function(data) {
+      if (/success/.test(data.toString())) {
+        return this.optionsSuccess = true;
+      }
+    });
   });
   vows.describe('core/watch.js').addBatch({
     'A watch instance': {
@@ -79,14 +97,23 @@
     },
     'A watch object created with miminalist config func, after call use with a function': {
       topic: function() {
-        var watch2;
-        watch2 = Curator.newWatch();
-        return watch2.use(function() {
+        var watchWithUse;
+        watchWithUse = Curator.newWatch();
+        return watchWithUse.use(function() {
           return this.useTest = true;
         });
       },
-      'should return itself and the function should be called': function(watch2) {
-        return assert.isTrue(watch2.useTest);
+      'should return itself and the function should be called': function(watchWithUse) {
+        return assert.isTrue(watchWithUse.useTest);
+      }
+    },
+    'A watch object started with custom options': {
+      topic: function() {
+        watchWithOptions.on('exit', this.callback);
+        watchWithOptions.start();
+      },
+      'should have custom options applied': function() {
+        return assert.isTrue(watchWithOptions.optionsSuccess);
       }
     }
   })["export"](module);
