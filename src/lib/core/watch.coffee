@@ -42,7 +42,7 @@ Watch::__defineGetter__ 'pid', ->
 Watch::__defineGetter__ 'running', -> @pid?
 
 # This function creates a new watch instance, then push it to the watchList.
-exports.newWatch = (func) ->
-  newWatch = new Watch func
+exports.newWatch = ->
+  newWatch = new Watch arguments...
   @watchList.push newWatch
   newWatch
