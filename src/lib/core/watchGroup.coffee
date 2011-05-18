@@ -3,14 +3,12 @@ child_process = require 'child_process'
 {EventEmitter} = require 'events'
 
 helpers = require 'curator/lib/helpers'
-newWatch = require('curator/lib/core/watch').newWatch
+{newWatch} = require 'curator/lib/core/watch'
 
 # WatchGroup object
 # Not exported because this shouldn't be called directly.
 class WatchGroup extends EventEmitter
   constructor: ->
-    self = @
-
     @watchList = []
     @running = 0
     # Apply custom configurations
@@ -18,19 +16,19 @@ class WatchGroup extends EventEmitter
 
     # Handlers for creating each watch instace.
     # We create this here because they are bind to each watchGroup.
-    @startHandler = -> self.emit 'each-start', @
+    @startHandler = -> @parent.emit 'each-start', @
 
     @startedHandler = ->
-      self.emit 'each-started', @
-      self.running++
-      self.emit 'all-running' if self.running is self.watchList.length
+      @parent.emit 'each-started', @
+      @parent.running++
+      @parent.emit 'all-running' if @parent.running is @parent.watchList.length
 
-    @dataHandler = (data) -> self.emit 'data', data, @
+    @dataHandler = (data) -> @parent.emit 'data', data, @
 
     @exitHandler = (code, signal) ->
-      self.emit 'each-exit', code, signal, @
-      self.running--
-      self.emit 'non-running' if self.running is 0
+      @parent.emit 'each-exit', code, signal, @
+      @parent.running--
+      @parent.emit 'non-running' if @parent.running is 0
 
     @create @startProcesses
 
@@ -46,13 +44,14 @@ class WatchGroup extends EventEmitter
     # instance that emitted the event will be appended to the list of arguments
     # to the group wise event.
     initializeWatch = ->
-      @name = self.name
-      @startCommand = self.startCommand
-      @on 'start', self.startHandler
-      @on 'started', self.startedHandler
-      @on 'data', self.dataHandler
-      @on 'exit', self.exitHandler
-      self.emit 'load', @
+      @parent = self
+      @name = @parent.name
+      @startCommand = @parent.startCommand
+      @on 'start', @parent.startHandler
+      @on 'started', @parent.startedHandler
+      @on 'data', @parent.dataHandler
+      @on 'exit', @parent.exitHandler
+      @parent.emit 'load', @
 
     # Create an array of watch objects and return it.
     (newWatch.call @, initializeWatch for i in [1..n])
