@@ -19,12 +19,12 @@ class Watch extends EventEmitter
     @child = helpers.exec @startCommand, @startOptions
 
     # Setup hooks
-    @stdin = @child.stdin
-    @stdout = @child.stdout
-    @stderr = @child.stderr
-    @stdout.on 'data', (data) => @emit 'data', data
-    @stderr.on 'data', (data) => @emit 'err', data
-    @child.on 'exit', (code, signal) => @emit 'exit', code, signal
+    for prop in ['stdin', 'stdout', 'stderr']
+      @[prop] = @child[prop]
+
+    @hook @stdout, 'data'
+    @hook @stderr, 'data', 'err'
+    @hook @child, 'exit'
 
     @emit 'started'
     # Return the watch object itself.
@@ -32,6 +32,15 @@ class Watch extends EventEmitter
 
   stop: -> @child.kill()
   use: helpers.use
+
+  # Function that returns a closure handling event "redirect"
+  doEmit: (event) ->
+    # Returns a function that "redirect" the event emited to the watch object.
+    => @emit event, arguments...
+
+  # Function that hook event from some event emitter to the watch instance.
+  hook: (emitter, event, emitEvent = event) ->
+    emitter.on event, @doEmit emitEvent
 
 Watch::__defineGetter__ 'pid', ->
   if @child?.pid?

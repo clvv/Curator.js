@@ -29,19 +29,20 @@ class WatchGroup extends EventEmitter
   use: helpers.use
 
   # Handlers
-  startHandler: -> @parent.emit 'each-start', @
+  handlers:
+    start: -> @parent.emit 'each-start', @
 
-  startedHandler: ->
-    @parent.emit 'each-started', @
-    @parent.running++
-    @parent.emit 'all-running' if @parent.running is @parent.watchList.length
+    started: ->
+      @parent.emit 'each-started', @
+      @parent.running++
+      @parent.emit 'all-running' if @parent.running is @parent.watchList.length
 
-  dataHandler: (data) -> @parent.emit 'data', data, @
+    data: (data) -> @parent.emit 'data', data, @
 
-  exitHandler: (code, signal) ->
-    @parent.emit 'each-exit', code, signal, @
-    @parent.running--
-    @parent.emit 'non-running' if @parent.running is 0
+    exit: (code, signal) ->
+      @parent.emit 'each-exit', code, signal, @
+      @parent.running--
+      @parent.emit 'non-running' if @parent.running is 0
 
   # Function which returns a closure that sets each watch object's parent
   initializeParentWith: (parent) -> -> @parent = parent
@@ -53,10 +54,8 @@ class WatchGroup extends EventEmitter
   initializeWatch: ->
     @name = @parent.name
     @startCommand = @parent.startCommand
-    @on 'start', @parent.startHandler
-    @on 'started', @parent.startedHandler
-    @on 'data', @parent.dataHandler
-    @on 'exit', @parent.exitHandler
+    for event in ['start', 'started', 'data', 'exit']
+      @on event, @parent.handlers[event]
     @parent.emit 'load', @
 
 # This function creates a new watchGroup instance, then push it to the watchList.
