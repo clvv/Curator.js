@@ -13,12 +13,14 @@ class WatchGroup extends EventEmitter
     @running = 0
     # Apply custom configurations.
     @use.apply @, arguments
+    # Initialize set parent function for the WatchGroup object
+    @initializeParent = @initializeParentWith @
     # Create startProcesses number of initial watch instances.
     @create @startProcesses
 
   # This function creates an array of n watch instances.
   create: (n) ->
-    (newWatch.call @, (@initializeParentWith @), @initializeWatch for i in [1..n])
+    (newWatch.call @, @initializeParent, @initializeWatch for i in [1..n])
 
   spawn: (n) -> @create(n).forEach helpers.starter
   start: helpers.startAll
