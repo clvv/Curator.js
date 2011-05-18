@@ -8,13 +8,13 @@ newWatch = require('curator/lib/core/watch').newWatch
 # WatchGroup object
 # Not exported because this shouldn't be called directly.
 class WatchGroup extends EventEmitter
-  constructor: (func) ->
+  constructor: ->
     self = @
 
     @watchList = []
     @running = 0
     # Apply custom configurations
-    func.call @
+    @use.apply @, arguments
 
     # Handlers for creating each watch instace.
     # We create this here because they are bind to each watchGroup.
@@ -58,12 +58,10 @@ class WatchGroup extends EventEmitter
     (newWatch.call @, initializeWatch for i in [1..n])
 
   spawn: (n) -> @create(n).forEach helpers.starter
-
   start: helpers.startAll
-
   stop: helpers.stopAll
-
   filter: helpers.filter
+  use: helpers.use
 
 # This function creates a new watchGroup instance, then push it to the watchList.
 exports.newWatchGroup = (func) ->

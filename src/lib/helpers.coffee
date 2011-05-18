@@ -27,3 +27,13 @@ module.exports = exports.helpers = helpers =
     args = command.split ' '
     command = args.shift()
     child_process.spawn command, args, options
+
+  # This is the use helper function for Watch and WatchGroup.
+  use: ->
+    # Apply each functions passed in.
+    for each in arguments
+      each?.call? @
+      if each instanceof Array
+        each[0]?.apply? @, each[1...]
+    # Return the instance itself.
+    @
