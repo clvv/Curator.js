@@ -15,4 +15,4 @@ module.exports = (watch = @) ->
     watch.once 'started', startedHandler
     watch.on 'exit', exitHandler
   else
-    watch.on 'exit'. exitHandlerSimple
+    watch.on 'exit', exitHandlerSimple
