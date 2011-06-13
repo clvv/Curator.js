@@ -8,6 +8,7 @@ Features
 
 * Designed to be extensible and flexible.
 * Access processes' stdin, stdout, and stderr streams. No need to implement IPC.
+* Custom conditions with timeline.
 
 Run `vows --spec` for more details.
 
@@ -34,7 +35,6 @@ Todo
 ----
 
 * More elaborate API documentations.
-* Implement timeline conditions like god-rb.
 * Implement Apache MPM like dynamic control.
 
 License
