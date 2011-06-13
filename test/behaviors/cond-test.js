@@ -19,15 +19,30 @@
       },
       '| a watch instace with a cond to callback applied after start': {
         topic: function() {
-          vows = this;
+          watch.once('cond-test', this.callback);
           watch.cond((function() {
             return true;
-          }), [2, 3], vows.callback);
+          }), [2, 3], function() {
+            return this.emit('cond-test', true);
+          });
           watch.start();
         },
-        'callback should be called': function() {
-          watch.stop();
-          return assert.isTrue(true);
+        'callback should be called': function(val) {
+          assert.equal(watch.timelines[0].length(), 2);
+          return watch.stop();
+        },
+        '| restart the watch instance and run the same test agagin': {
+          topic: function() {
+            vows = this;
+            watch.on('exit', function() {
+              watch.once('cond-test', vows.callback);
+              return watch.start();
+            });
+          },
+          'callback should be called': function(val) {
+            watch.stop();
+            return assert.isTrue(val);
+          }
         }
       }
     }

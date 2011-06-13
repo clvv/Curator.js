@@ -19,11 +19,22 @@ vows
         assert.isFunction cond
       '| a watch instace with a cond to callback applied after start':
         topic: ->
-          vows = @
-          watch.cond (-> true), [2,3], vows.callback
+          watch.once 'cond-test', @callback
+          watch.cond (-> true), [2,3], -> @emit 'cond-test', true
           watch.start()
           return
-        'callback should be called': ->
+        'callback should be called': (val) ->
+          assert.equal watch.timelines[0].length(), 2
           watch.stop()
-          assert.isTrue true
+        '| restart the watch instance and run the same test agagin':
+          topic: ->
+            vows = @
+            watch.on 'exit', ->
+              watch.once 'cond-test', vows.callback
+              watch.start()
+            return
+          'callback should be called': (val) ->
+            watch.stop()
+            assert.isTrue val
+
   .export module
