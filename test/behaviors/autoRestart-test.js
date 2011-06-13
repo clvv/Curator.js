@@ -13,11 +13,21 @@
   vows.describe('behaviors/autoRstart').addBatch({
     'A watch instance with `maxRetry` set to 3 and `autoRstart(this)` applied after start': {
       topic: function() {
-        watch.on('max-retry-reached', this.callback);
+        watch.once('max-retry-reached', this.callback);
         watch.start();
       },
       'has count of 3': function() {
         return assert.equal(watch.count, 3);
+      },
+      '| restart the instance and run the test again': {
+        topic: function() {
+          watch.emit('reset');
+          watch.once('max-retry-reached', this.callback);
+          watch.start();
+        },
+        'has count of 3': function() {
+          return assert.equal(watch.count, 3);
+        }
       }
     }
   })["export"](module);

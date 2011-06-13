@@ -19,9 +19,17 @@ vows
   .addBatch
     'A watch instance with `maxRetry` set to 3 and `autoRstart(this)` applied after start':
       topic: ->
-        watch.on 'max-retry-reached', @callback
+        watch.once 'max-retry-reached', @callback
         watch.start()
         return
       'has count of 3': ->
         assert.equal watch.count, 3
+      '| restart the instance and run the test again':
+        topic: ->
+          watch.emit 'reset'
+          watch.once 'max-retry-reached', @callback
+          watch.start()
+          return
+        'has count of 3': ->
+          assert.equal watch.count, 3
   .export module
