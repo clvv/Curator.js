@@ -29,6 +29,7 @@ module.exports = (watchGroup = @) ->
 
       watchGroup.emit 'new-stat'
 
+  # Apply hooks to each watch instance when loading
   watchGroup.on 'load', (watch) ->
     watch.checkInterval = watchGroup.checkInterval
     watch.on 'new-stat', newStatHandler

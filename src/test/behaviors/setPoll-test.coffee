@@ -10,7 +10,6 @@ watch = Curator.newWatch ->
   @checkInterval = 80
   setPoll @
 
-
 vows
   .describe('behaviors/setPoll')
   .addBatch
@@ -35,4 +34,4 @@ vows
             console.log 'Fail stats:'
             console.log "watch.stat.ipcpu: #{watch.stat.ipcpu}"
           assert.isTrue bool
-  .export(module)
+  .export module

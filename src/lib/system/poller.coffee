@@ -17,7 +17,7 @@ exports.poll = (watch = @, callback) ->
       stat.ipcpu = 0 unless stat.ipcpu >= 0
     else
       watch.hasOldStat = true
-      watch.on 'exit', ->
+      watch.once 'exit', ->
         watch.hasOldStat = false
 
     watch.old_utime = stat.utime
@@ -25,7 +25,7 @@ exports.poll = (watch = @, callback) ->
 
     watch.stat = stat
 
-    callback?.call? watch, watch.stat
+    callback?.call? watch, stat
 
     watch.emit('new-stat')
 
