@@ -5,8 +5,7 @@ child_process = require 'child_process'
 helpers = require 'curator/lib/helpers'
 
 # Watch object
-# Not exported because this shouldn't be called directly.
-class Watch extends EventEmitter
+exports.Watch = class Watch extends EventEmitter
   constructor: ->
     @use.apply @, arguments
 
@@ -32,6 +31,7 @@ class Watch extends EventEmitter
 
   stop: -> @child.kill()
   use: helpers.use
+  cond: require 'curator/lib/behaviors/cond'
 
   # Function that returns a closure handling event "redirect"
   doEmit: (event) ->

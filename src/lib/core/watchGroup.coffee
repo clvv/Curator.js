@@ -6,8 +6,7 @@ helpers = require 'curator/lib/helpers'
 {newWatch} = require 'curator/lib/core/watch'
 
 # WatchGroup object
-# Not exported because this shouldn't be called directly.
-class WatchGroup extends EventEmitter
+exports.WatchGroup = class WatchGroup extends EventEmitter
   constructor: ->
     @watchList = []
     @running = 0
@@ -27,6 +26,7 @@ class WatchGroup extends EventEmitter
   stop: helpers.stopAll
   filter: helpers.filter
   use: helpers.use
+  cond: require 'curator/lib/behaviors/cond'
 
   # Handlers
   handlers:
