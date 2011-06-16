@@ -1,7 +1,7 @@
 vows = require 'vows'
 assert = require 'assert'
 
-setPoll = require 'curator/lib/behaviors/setPoll'
+setPoll = require 'curator/lib/modules/setPoll'
 Curator = require 'curator'
 
 watch = Curator.newWatch ->
@@ -11,7 +11,7 @@ watch = Curator.newWatch ->
   setPoll @
 
 vows
-  .describe('behaviors/setPoll')
+  .describe('modules/setPoll')
   .addBatch
     'setPoll function':
       topic: ->

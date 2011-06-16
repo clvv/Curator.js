@@ -6,7 +6,7 @@ assert = require 'assert'
 # fail.
 Curator = require 'curator'
 
-autoRestart = require 'curator/lib/behaviors/autoRestart'
+autoRestart = require 'curator/lib/modules/autoRestart'
 
 watch = Curator.newWatch ->
   @name = 'test-autorestart'
@@ -15,7 +15,7 @@ watch = Curator.newWatch ->
   autoRestart @
 
 vows
-  .describe('behaviors/autoRstart')
+  .describe('modules/autoRstart')
   .addBatch
     'A watch instance with `maxRetry` set to 3 and `autoRstart(this)` applied after start':
       topic: ->

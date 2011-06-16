@@ -3,14 +3,14 @@
   vows = require('vows');
   assert = require('assert');
   Curator = require('curator');
-  autoRestart = require('curator/lib/behaviors/autoRestart');
+  autoRestart = require('curator/lib/modules/autoRestart');
   watch = Curator.newWatch(function() {
     this.name = 'test-autorestart';
     this.startCommand = 'date';
     this.maxRetry = 3;
     return autoRestart(this);
   });
-  vows.describe('behaviors/autoRstart').addBatch({
+  vows.describe('modules/autoRstart').addBatch({
     'A watch instance with `maxRetry` set to 3 and `autoRstart(this)` applied after start': {
       topic: function() {
         watch.once('max-retry-reached', this.callback);

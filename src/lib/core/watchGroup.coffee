@@ -26,7 +26,7 @@ exports.WatchGroup = class WatchGroup extends EventEmitter
   stop: helpers.stopAll
   filter: helpers.filter
   use: helpers.use
-  cond: require 'curator/lib/behaviors/cond'
+  cond: require 'curator/lib/modules/cond'
 
   # Handlers
   handlers:

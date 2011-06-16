@@ -9,7 +9,7 @@
     this.checkInterval = 80;
     return Curator.setPoll(this);
   });
-  vows.describe('behaviors/cond').addBatch({
+  vows.describe('modules/cond').addBatch({
     'cond function': {
       topic: function() {
         return watch.cond;

@@ -1,8 +1,6 @@
 # This is the procfs poller.
 
-child_process = require 'child_process'
 fs = require 'fs'
-
 os = require 'os'
 
 kb_per_page = 4
@@ -57,7 +55,7 @@ exports.poll = (pid, callback) ->
       exit_signal: parseInt(data[37]), processor: parseInt(data[38]),
       rt_priority: parseInt(data[39]), policy: parseInt(data[40]),
       delayacct_blkio_ticks: parseInt(data[41]), guest_time: parseInt(data[42]),
-      cguest_time: parseInt(data[43].trim())
+      cguest_time: parseInt data[43].trim()
 
     stat.timestamp = os.uptime()
 

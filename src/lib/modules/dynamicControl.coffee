@@ -12,4 +12,4 @@ module.exports = (watchGroup = @) ->
     watchGroup.emit 'mem-exceed' if watchGroup.total_mem > watchGroup.maxMemory
     watchGroup.emit 'cpu-exceed' if watchGroup.total_icpu > watchGroup.maxCpu
 
-    watchGroup.emit('check')
+    watchGroup.emit 'check'

@@ -6,7 +6,7 @@ assert = require 'assert'
 # fail.
 Curator = require 'curator'
 
-dynamicControl = require 'curator/lib/behaviors/dynamicControl'
+dynamicControl = require 'curator/lib/modules/dynamicControl'
 
 watchGroup = Curator.newWatchGroup ->
   @name = 'dynamic-group'
@@ -19,7 +19,7 @@ watchGroup = Curator.newWatchGroup ->
   dynamicControl(this)
 
 vows
-  .describe('behaviors/dynamicControl')
+  .describe('modules/dynamicControl')
   .addBatch
     'A watchGroup instance with `Curator.dynamicControl(this)` applied after start':
       topic: ->

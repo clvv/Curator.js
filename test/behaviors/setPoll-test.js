@@ -2,7 +2,7 @@
   var Curator, assert, setPoll, vows, watch;
   vows = require('vows');
   assert = require('assert');
-  setPoll = require('curator/lib/behaviors/setPoll');
+  setPoll = require('curator/lib/modules/setPoll');
   Curator = require('curator');
   watch = Curator.newWatch(function() {
     this.name = 'test-setPoll';
@@ -10,7 +10,7 @@
     this.checkInterval = 80;
     return setPoll(this);
   });
-  vows.describe('behaviors/setPoll').addBatch({
+  vows.describe('modules/setPoll').addBatch({
     'setPoll function': {
       topic: function() {
         return setPoll;

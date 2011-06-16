@@ -2,7 +2,7 @@
   var Curator, assert, setGroupPoll, vows, watchGroup;
   vows = require('vows');
   assert = require('assert');
-  setGroupPoll = require('curator/lib/behaviors/setGroupPoll');
+  setGroupPoll = require('curator/lib/modules/setGroupPoll');
   Curator = require('curator');
   watchGroup = Curator.newWatchGroup(function() {
     this.name = 'test-setGroupPoll';
@@ -11,7 +11,7 @@
     this.checkInterval = 80;
     return setGroupPoll(this);
   });
-  vows.describe('behaviors/setGroupPoll').addBatch({
+  vows.describe('modules/setGroupPoll').addBatch({
     'setGroupPoll function': {
       topic: function() {
         return setGroupPoll;

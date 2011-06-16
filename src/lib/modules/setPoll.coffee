@@ -1,4 +1,4 @@
-setInterval = require 'curator/lib/behaviors/setInterval'
+setInterval = require 'curator/lib/modules/setInterval'
 poller = require 'curator/lib/system/poller'
 
 # This is just a really simple wrapper around poller

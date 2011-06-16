@@ -10,7 +10,7 @@ watch = Curator.newWatch ->
   Curator.setPoll @
 
 vows
-  .describe('behaviors/cond')
+  .describe('modules/cond')
   .addBatch
     'cond function':
       topic: ->

@@ -27,5 +27,5 @@ exports.poll = (watch = @, callback) ->
 
     callback?.call? watch, stat
 
-    watch.emit('new-stat')
+    watch.emit 'new-stat'
 

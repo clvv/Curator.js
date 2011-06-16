@@ -3,7 +3,7 @@
   vows = require('vows');
   assert = require('assert');
   Curator = require('curator');
-  setInterval = require('curator/lib/behaviors/setInterval');
+  setInterval = require('curator/lib/modules/setInterval');
   watch = Curator.newWatch(function() {
     this.name = 'test-watch';
     this.startCommand = 'node';
@@ -25,7 +25,7 @@
       return this.stop();
     }, 0, 1000);
   });
-  vows.describe('behaviors/setInterval').addBatch({
+  vows.describe('modules/setInterval').addBatch({
     'A watch instance with `setInterval(this, callback, 0)` applied': {
       topic: function() {
         return watch;

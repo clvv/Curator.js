@@ -6,7 +6,7 @@ assert = require 'assert'
 # fail.
 Curator = require 'curator'
 
-setInterval = require 'curator/lib/behaviors/setInterval'
+setInterval = require 'curator/lib/modules/setInterval'
 
 watch = Curator.newWatch ->
   @name = 'test-watch'
@@ -29,7 +29,7 @@ watchWithStartGrace = Curator.newWatch ->
   , 0, 1000
 
 vows
-  .describe('behaviors/setInterval')
+  .describe('modules/setInterval')
   .addBatch
     'A watch instance with `setInterval(this, callback, 0)` applied':
       topic: ->

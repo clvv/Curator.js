@@ -31,7 +31,7 @@ exports.Watch = class Watch extends EventEmitter
 
   stop: -> @child.kill()
   use: helpers.use
-  cond: require 'curator/lib/behaviors/cond'
+  cond: require 'curator/lib/modules/cond'
 
   # Function that returns a closure handling event "redirect"
   doEmit: (event) ->
