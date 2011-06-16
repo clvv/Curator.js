@@ -49,6 +49,33 @@
           },
           'should be stoped': function() {
             return assert.strictEqual(watchGroup.running, 0);
+          },
+          '| restart the instance and run the test again': function() {
+            return {
+              topic: function() {
+                vows = this;
+                watchGroup.stat = null;
+                watchGroup.once('new-stat', function() {
+                  return watchGroup.once('new-stat', vows.callback);
+                });
+                watchGroup.start();
+              },
+              'should have .stat': function() {
+                return assert.isObject(watchGroup.stat);
+              },
+              'should have .stat.mem': function() {
+                return assert.isTrue(watchGroup.stat.total_mem > 0);
+              },
+              'should have .stat.pmem': function() {
+                return assert.isTrue(watchGroup.stat.total_pmem > 0);
+              },
+              'should have .stat.pcpu': function() {
+                return assert.isTrue(watchGroup.stat.total_pcpu >= 0);
+              },
+              'should have .stat.ipcpu': function() {
+                return assert.isTrue(watchGroup.stat.total_ipcpu >= 0);
+              }
+            };
           }
         }
       }

@@ -40,15 +40,24 @@ vows
         assert.isFunction watch.clearTimeouts
       '| after .start()':
         topic: ->
-          watch.on('exit', @callback)
+          watch.once 'exit', @callback
           watch.start()
           return
         'callback should be called': ->
           assert.isTrue watch.called
+        '| reset and restart the instance': ->
+          topic: ->
+            watch.called = false
+            watch.once 'exit', @called
+            watch.start()
+            return
+          'callback should be called again': ->
+            assert.isTrue watch.called
     'A watch instance with `setInterval(this, callback, 0, 1000)` applied after start':
       topic: ->
         watchWithStartGrace.on 'exit', @callback
         watchWithStartGrace.start()
+        return
       'callback shouldn\'t be called': ->
         assert.isFalse watchWithStartGrace.called
   .export module

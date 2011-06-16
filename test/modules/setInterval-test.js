@@ -38,18 +38,30 @@
       },
       '| after .start()': {
         topic: function() {
-          watch.on('exit', this.callback);
+          watch.once('exit', this.callback);
           watch.start();
         },
         'callback should be called': function() {
           return assert.isTrue(watch.called);
+        },
+        '| reset and restart the instance': function() {
+          return {
+            topic: function() {
+              watch.called = false;
+              watch.once('exit', this.called);
+              watch.start();
+            },
+            'callback should be called again': function() {
+              return assert.isTrue(watch.called);
+            }
+          };
         }
       }
     },
     'A watch instance with `setInterval(this, callback, 0, 1000)` applied after start': {
       topic: function() {
         watchWithStartGrace.on('exit', this.callback);
-        return watchWithStartGrace.start();
+        watchWithStartGrace.start();
       },
       'callback shouldn\'t be called': function() {
         return assert.isFalse(watchWithStartGrace.called);

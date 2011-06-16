@@ -20,7 +20,7 @@ vows
         assert.isFunction setPoll
       '| a watch instace with setPoll applied after start':
         topic: ->
-          vows = this
+          vows = @
           watch.once 'new-stat', ->
             watch.once 'new-stat', vows.callback
           watch.start()

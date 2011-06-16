@@ -15,7 +15,10 @@ exports.Watch = class Watch extends EventEmitter
 
     @emit 'start'
 
-    @child = helpers.exec @startCommand, @startOptions
+    try
+      @child = helpers.exec @startCommand, @startOptions
+    catch err
+      console.log "Failed to spawn #{@startCommand} with #{@startOptions}"
 
     # Setup hooks
     for prop in ['stdin', 'stdout', 'stderr']
