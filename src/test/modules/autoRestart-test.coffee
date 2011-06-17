@@ -22,8 +22,8 @@ autoRestart watch2
 # Of course we are not gonna test that this will restart itself forever.
 watch2.on 'exit', ->
   if @exitTimes++ > 5
-    @stop()
-    @emit '50-reached', true
+    @removeAllListeners 'exit'
+    @emit 'reached', true
 
 vows
   .describe('modules/autoRstart')
@@ -45,7 +45,7 @@ vows
           assert.equal watch.count, 3
     'A watch instance with `autoRestart` applied after start':
       topic: ->
-        watch2.on '50-reached', @callback
+        watch2.once 'reached', @callback
         watch2.start()
         return
       'should restart as many times as possible': (val) ->

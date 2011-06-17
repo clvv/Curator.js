@@ -17,8 +17,8 @@
   autoRestart(watch2);
   watch2.on('exit', function() {
     if (this.exitTimes++ > 5) {
-      this.stop();
-      return this.emit('50-reached', true);
+      this.removeAllListeners('exit');
+      return this.emit('reached', true);
     }
   });
   vows.describe('modules/autoRstart').addBatch({
@@ -43,7 +43,7 @@
     },
     'A watch instance with `autoRestart` applied after start': {
       topic: function() {
-        watch2.on('50-reached', this.callback);
+        watch2.once('reached', this.callback);
         watch2.start();
       },
       'should restart as many times as possible': function(val) {
