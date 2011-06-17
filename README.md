@@ -9,13 +9,6 @@ Each process is tied to an object called a "watch instance." Curator also
 provides a watchGroup object that represent a group of processes, which can be
 dynamically configured.
 
-The structure of the Curator project consists of three main parts: core, system,
-and modules. Core is the small set of code that implements watch and watchGroup.
-System is the part where Curator interacts with system level API like doing
-procfs lookups. Modules are parts that extend and define the behaviors of watch
-and watchGroup instances. You can easily extend Curator by writing custom
-modules.
-
 Features
 --------
 
@@ -54,6 +47,13 @@ For more examples please see examples/*
 
 Messing with the Code
 ---------------------
+The structure of the Curator project consists of three main parts: core, system,
+and modules. Core is the small set of code that implements watch and watchGroup.
+System is the part where Curator interacts with system level API like doing
+procfs lookups. Modules are parts that extend and define the behaviors of watch
+and watchGroup instances. You can easily extend Curator by writing custom
+modules.
+
 Curator is written in coffee-script. All source code is located under `src`
 directory. After you make some change in `src`, you can rebuild all javascript
 files with `cake build`. Make sure you run `vows` to test out your change.
@@ -62,6 +62,9 @@ Todo
 ----
 
 * More elaborate API documentations.
+* Implement logging and better error handling.
+* Implement instance states: starting, running etc.
+* Make module helpers like do-once-per-lifecycle, do-on-starting etc.
 * Implement Apache MPM like dynamic control.
 
 License
