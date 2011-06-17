@@ -7,7 +7,7 @@ helpers = require 'curator/lib/helpers'
 # Watch object
 exports.Watch = class Watch extends EventEmitter
   constructor: ->
-    @use.apply @, arguments
+    @use arguments...
 
   start: ->
     # Return if it is already running.

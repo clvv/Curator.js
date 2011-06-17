@@ -32,7 +32,6 @@ module.exports = exports.helpers = helpers =
   use: ->
     # Apply each functions passed in.
     for each in arguments
-      each?.call? @
-      each[0]?.apply? @, each[1...]
+      (each?.call? @) or each[0]?.apply? @, each[1...]
     # Return the instance itself.
     @

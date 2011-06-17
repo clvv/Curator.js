@@ -11,7 +11,7 @@ exports.WatchGroup = class WatchGroup extends EventEmitter
     @watchList = []
     @running = 0
     # Apply custom configurations.
-    @use.apply @, arguments
+    @use arguments...
     # Initialize set parent function for the WatchGroup object
     @initializeParent = @initializeParentWith @
     # Create startProcesses number of initial watch instances.
