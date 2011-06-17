@@ -45,10 +45,10 @@ vows
           return
         'callback should be called': ->
           assert.isTrue watch.called
-        '| reset and restart the instance': ->
+        '| reset and restart the instance':
           topic: ->
             watch.called = false
-            watch.once 'exit', @called
+            watch.once 'exit', @callback
             watch.start()
             return
           'callback should be called again': ->

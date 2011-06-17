@@ -1,5 +1,5 @@
 (function() {
-  var Curator, assert, vows, watch, watchWithOptions;
+  var Curator, assert, vows, watch, watchWithOptions, watchWithUse;
   vows = require('vows');
   assert = require('assert');
   Curator = require('curator');
@@ -27,11 +27,17 @@
       }
     });
   });
+  watchWithUse = Curator.newWatch().use(function() {
+    return this.useTest = true;
+  });
   vows.describe('core/watch.js').addBatch({
     'A watch instance': {
       topic: watch,
       'is a object': function() {
         return assert.isObject(watch);
+      },
+      'is an instance of Curator.Watch': function() {
+        return assert.isTrue(watch instanceof Curator.Watch);
       },
       'responds to start': function() {
         return assert.isFunction(watch.start);
@@ -58,7 +64,7 @@
             }, 1, 2, 3
           ]);
         },
-        '| functions should be called': function() {
+        'functions should be called': function() {
           assert.isTrue(watch.useCalled);
           return assert.equal(watch.arrayFunctionCalling, 6);
         }
@@ -99,13 +105,9 @@
     },
     'A watch object created with miminalist config func, after call use with a function': {
       topic: function() {
-        var watchWithUse;
-        watchWithUse = Curator.newWatch();
-        return watchWithUse.use(function() {
-          return this.useTest = true;
-        });
+        return watchWithUse;
       },
-      'should return itself and the function should be called': function(watchWithUse) {
+      'should return itself and the function should be called': function() {
         return assert.isTrue(watchWithUse.useTest);
       }
     },

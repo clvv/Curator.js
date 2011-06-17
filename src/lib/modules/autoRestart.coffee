@@ -15,6 +15,7 @@ exitHandlerSimple = (code, signal) ->
   process.nextTick => @start()
 
 module.exports = (watch = @) ->
+  watch.reset = initHandler
   if watch.maxRetry > 0
     watch.once 'started', initHandler
     watch.on 'reset', initHandler

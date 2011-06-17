@@ -1,5 +1,5 @@
 (function() {
-  var Curator, assert, autoRestart, vows, watch;
+  var Curator, assert, autoRestart, vows, watch, watch2;
   vows = require('vows');
   assert = require('assert');
   Curator = require('curator');
@@ -10,8 +10,19 @@
     this.maxRetry = 3;
     return autoRestart(this);
   });
+  watch2 = Curator.newWatch();
+  watch2.name = 'autorestart=test2';
+  watch2.startCommand = 'date';
+  watch2.exitTimes = 0;
+  autoRestart(watch2);
+  watch2.on('exit', function() {
+    if (this.exitTimes++ > 5) {
+      this.stop();
+      return this.emit('50-reached', true);
+    }
+  });
   vows.describe('modules/autoRstart').addBatch({
-    'A watch instance with `maxRetry` set to 3 and `autoRstart(this)` applied after start': {
+    'A watch instance with `maxRetry` set to 3 and `autoRstart` applied after start': {
       topic: function() {
         watch.once('max-retry-reached', this.callback);
         watch.start();
@@ -21,13 +32,22 @@
       },
       '| restart the instance and run the test again': {
         topic: function() {
-          watch.emit('reset');
+          watch.reset();
           watch.once('max-retry-reached', this.callback);
           watch.start();
         },
         'has count of 3': function() {
           return assert.equal(watch.count, 3);
         }
+      }
+    },
+    'A watch instance with `autoRestart` applied after start': {
+      topic: function() {
+        watch2.on('50-reached', this.callback);
+        watch2.start();
+      },
+      'should restart as many times as possible': function(val) {
+        return assert.isTrue(val);
       }
     }
   })["export"](module);

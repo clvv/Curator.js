@@ -14,6 +14,9 @@
       'is an object': function() {
         return assert.isObject(watchGroup);
       },
+      'is an instance of Curator.WatchGroup': function() {
+        return assert.isTrue(watchGroup instanceof Curator.WatchGroup);
+      },
       'responds to start': function() {
         return assert.isFunction(watchGroup.start);
       },

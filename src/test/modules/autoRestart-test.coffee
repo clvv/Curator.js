@@ -14,10 +14,21 @@ watch = Curator.newWatch ->
   @maxRetry = 3
   autoRestart @
 
+watch2 = Curator.newWatch()
+watch2.name = 'autorestart=test2'
+watch2.startCommand = 'date'
+watch2.exitTimes = 0
+autoRestart watch2
+# Of course we are not gonna test that this will restart itself forever.
+watch2.on 'exit', ->
+  if @exitTimes++ > 5
+    @stop()
+    @emit '50-reached', true
+
 vows
   .describe('modules/autoRstart')
   .addBatch
-    'A watch instance with `maxRetry` set to 3 and `autoRstart(this)` applied after start':
+    'A watch instance with `maxRetry` set to 3 and `autoRstart` applied after start':
       topic: ->
         watch.once 'max-retry-reached', @callback
         watch.start()
@@ -26,10 +37,17 @@ vows
         assert.equal watch.count, 3
       '| restart the instance and run the test again':
         topic: ->
-          watch.emit 'reset'
+          watch.reset()
           watch.once 'max-retry-reached', @callback
           watch.start()
           return
         'has count of 3': ->
           assert.equal watch.count, 3
+    'A watch instance with `autoRestart` applied after start':
+      topic: ->
+        watch2.on '50-reached', @callback
+        watch2.start()
+        return
+      'should restart as many times as possible': (val) ->
+        assert.isTrue val
   .export module

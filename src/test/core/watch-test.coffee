@@ -18,6 +18,8 @@ watchWithOptions = Curator.newWatch ->
   @on 'data', (data) ->
     @optionsSuccess = true if /success/.test data.toString()
 
+watchWithUse = Curator.newWatch().use -> @useTest = true
+
 vows
   .describe('core/watch.js')
   .addBatch
@@ -25,6 +27,8 @@ vows
       topic: watch
       'is a object': ->
         assert.isObject watch
+      'is an instance of Curator.Watch': ->
+        assert.isTrue watch instanceof Curator.Watch
       'responds to start': ->
         assert.isFunction watch.start
       'responds to stop': ->
@@ -42,7 +46,7 @@ vows
           , [ (a, b, c) ->
             @arrayFunctionCalling = a + b + c
           , 1, 2, 3]
-        '| functions should be called': ->
+        'functions should be called': ->
           assert.isTrue watch.useCalled
           assert.equal watch.arrayFunctionCalling, 6
       '| after `.start()` on started event':
@@ -72,10 +76,8 @@ vows
             assert.isFalse watch.stderr.readable
     'A watch object created with miminalist config func, after call use with a function':
       topic: ->
-        watchWithUse = Curator.newWatch()
-        watchWithUse.use ->
-          @useTest = true
-      'should return itself and the function should be called': (watchWithUse) ->
+        watchWithUse
+      'should return itself and the function should be called': ->
         assert.isTrue watchWithUse.useTest
     'A watch object started with custom options':
       topic: ->

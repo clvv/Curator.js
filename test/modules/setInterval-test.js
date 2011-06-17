@@ -44,17 +44,15 @@
         'callback should be called': function() {
           return assert.isTrue(watch.called);
         },
-        '| reset and restart the instance': function() {
-          return {
-            topic: function() {
-              watch.called = false;
-              watch.once('exit', this.called);
-              watch.start();
-            },
-            'callback should be called again': function() {
-              return assert.isTrue(watch.called);
-            }
-          };
+        '| reset and restart the instance': {
+          topic: function() {
+            watch.called = false;
+            watch.once('exit', this.callback);
+            watch.start();
+          },
+          'callback should be called again': function() {
+            return assert.isTrue(watch.called);
+          }
         }
       }
     },

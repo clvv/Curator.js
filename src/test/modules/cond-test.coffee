@@ -36,5 +36,4 @@ vows
           'callback should be called': (val) ->
             watch.stop()
             assert.isTrue val
-
   .export module

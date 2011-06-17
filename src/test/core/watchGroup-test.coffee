@@ -17,6 +17,8 @@ vows
       topic: watchGroup
       'is an object': ->
         assert.isObject watchGroup
+      'is an instance of Curator.WatchGroup': ->
+        assert.isTrue watchGroup instanceof Curator.WatchGroup
       'responds to start': ->
         assert.isFunction watchGroup.start
       'responds to stop': ->

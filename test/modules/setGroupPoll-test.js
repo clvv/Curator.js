@@ -50,32 +50,23 @@
           'should be stoped': function() {
             return assert.strictEqual(watchGroup.running, 0);
           },
-          '| restart the instance and run the test again': function() {
-            return {
-              topic: function() {
-                vows = this;
-                watchGroup.stat = null;
-                watchGroup.once('new-stat', function() {
-                  return watchGroup.once('new-stat', vows.callback);
-                });
-                watchGroup.start();
-              },
-              'should have .stat': function() {
-                return assert.isObject(watchGroup.stat);
-              },
-              'should have .stat.mem': function() {
-                return assert.isTrue(watchGroup.stat.total_mem > 0);
-              },
-              'should have .stat.pmem': function() {
-                return assert.isTrue(watchGroup.stat.total_pmem > 0);
-              },
-              'should have .stat.pcpu': function() {
-                return assert.isTrue(watchGroup.stat.total_pcpu >= 0);
-              },
-              'should have .stat.ipcpu': function() {
-                return assert.isTrue(watchGroup.stat.total_ipcpu >= 0);
-              }
-            };
+          '| restart the instance and run the test again': {
+            topic: function() {
+              vows = this;
+              watchGroup.total_mem = watchGroup.total_pmem = 0;
+              watchGroup.total_pcpu = watchGroup.total_ipcpu = -1;
+              watchGroup.once('new-stat', function() {
+                return watchGroup.once('new-stat', vows.callback);
+              });
+              watchGroup.start();
+            },
+            'should have correct stats again:': function() {
+              assert.isObject(watchGroup.stat);
+              assert.isTrue(watchGroup.stat.total_mem > 0);
+              assert.isTrue(watchGroup.stat.total_pmem > 0);
+              assert.isTrue(watchGroup.stat.total_pcpu >= 0);
+              return assert.isTrue(watchGroup.stat.total_ipcpu >= 0);
+            }
           }
         }
       }

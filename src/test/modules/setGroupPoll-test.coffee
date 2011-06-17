@@ -43,22 +43,20 @@ vows
             return
           'should be stoped': ->
             assert.strictEqual watchGroup.running, 0
-          '| restart the instance and run the test again': ->
+          '| restart the instance and run the test again':
             topic: ->
               vows = @
-              watchGroup.stat = null
+              # Feed some false data that would otherwise fail the tests
+              watchGroup.total_mem = watchGroup.total_pmem = 0
+              watchGroup.total_pcpu = watchGroup.total_ipcpu = -1
               watchGroup.once 'new-stat', ->
                 watchGroup.once 'new-stat', vows.callback
               watchGroup.start()
               return
-            'should have .stat': ->
+            'should have correct stats again:': ->
               assert.isObject watchGroup.stat
-            'should have .stat.mem': ->
               assert.isTrue watchGroup.stat.total_mem > 0
-            'should have .stat.pmem': ->
               assert.isTrue watchGroup.stat.total_pmem > 0
-            'should have .stat.pcpu': ->
               assert.isTrue watchGroup.stat.total_pcpu >= 0
-            'should have .stat.ipcpu': ->
               assert.isTrue watchGroup.stat.total_ipcpu >= 0
   .export module
