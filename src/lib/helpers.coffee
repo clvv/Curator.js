@@ -33,7 +33,6 @@ module.exports = exports.helpers = helpers =
     # Apply each functions passed in.
     for each in arguments
       each?.call? @
-      if each instanceof Array
-        each[0]?.apply? @, each[1...]
+      each[0]?.apply? @, each[1...]
     # Return the instance itself.
     @

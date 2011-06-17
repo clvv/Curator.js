@@ -8,12 +8,16 @@ class Timeline
     @times = 0
     @records = []
 
+  # Push can takes any value, but interpret it as its boolean equivalent.
   push: (value) ->
-    @times++ if value
-    @records.push value
-    if @records.length > @size
-      if @records.shift()
-        @times--
+    if value
+      @times++
+      @records.push true
+    else
+      @records.push false
+
+    @times-- if @records.length > @size and @records.shift()
+
     if @times >= @max then true else false
 
   length: -> @records.length
@@ -33,11 +37,8 @@ module.exports = module.exports = (checkFunc, times, execFunc) ->
   @timelines.push timeline
 
   @on 'new-stat', ->
-    if checkFunc.call @
-      if timeline.push true
-        execFunc.call @
-    else
-      timeline.push false
+    # Call checkFunc. Then call execFunc if the condition is met.
+    execFunc.call @ if timeline.push checkFunc.call @
 
   @on 'exit', ->
     timeline.reset()

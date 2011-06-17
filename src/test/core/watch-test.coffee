@@ -25,7 +25,7 @@ vows
   .addBatch
     'A watch instance':
       topic: watch
-      'is a object': ->
+      'is an object': ->
         assert.isObject watch
       'is an instance of Curator.Watch': ->
         assert.isTrue watch instanceof Curator.Watch

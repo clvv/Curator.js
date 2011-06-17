@@ -33,7 +33,7 @@
   vows.describe('core/watch.js').addBatch({
     'A watch instance': {
       topic: watch,
-      'is a object': function() {
+      'is an object': function() {
         return assert.isObject(watch);
       },
       'is an instance of Curator.Watch': function() {
