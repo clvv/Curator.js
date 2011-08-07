@@ -16,11 +16,12 @@ module.exports = (watch = @, func, interval, startGrace) ->
   watch.startGraceTimeouts ?= []
 
   # Setup the check interval after the process starts.
-  watch.on 'started', ->
-    if startGrace
+  if startGrace
+    watch.on 'started', ->
       watch.startGraceTimeouts.push setTimeout (->
         watch.intervals.push setInterval (func.bind watch), interval), startGrace
-    else
+  else
+    watch.on 'started', ->
       watch.intervals.push setInterval (func.bind watch), interval
 
   # Add the clear-interval-and-timeout listener once.

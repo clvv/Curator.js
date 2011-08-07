@@ -30,7 +30,7 @@ class Timeline
 # It runs checkFunc against the watch instance whenever there're new stats. If
 # times[0] out of times[1] times checkFunc returns true, then it calls execFunc
 # against the watch instance.
-module.exports = module.exports = (checkFunc, times, execFunc) ->
+module.exports = (checkFunc, times, execFunc) ->
   @timelines ?= []
 
   timeline = new Timeline times
