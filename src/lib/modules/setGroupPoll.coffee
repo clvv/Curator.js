@@ -1,4 +1,5 @@
 poller = require 'curator/lib/system/poller'
+setInterval = require 'curator/lib/modules/setInterval'
 
 initialStat =
   total_mem: 0
@@ -34,5 +35,5 @@ module.exports = (watchGroup = @) ->
     watch.checkInterval = watchGroup.checkInterval
     watch.on 'new-stat', newStatHandler
 
-  setInterval (->
+  setInterval watchGroup, (->
     watchGroup.watchList.forEach poller.poll), watchGroup.checkInterval

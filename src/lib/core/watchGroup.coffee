@@ -22,8 +22,13 @@ exports.WatchGroup = class WatchGroup extends EventEmitter
     (newWatch.call @, @initializeParent, @initializeWatch for i in [1..n])
 
   spawn: (n) -> @create(n).forEach helpers.starter
-  start: helpers.startAll
-  stop: helpers.stopAll
+  start: ->
+    @emit 'start'
+    helpers.startAll.call @
+    @emit 'started'
+  stop: ->
+    @emit 'exit'
+    helpers.stopAll.call @
   filter: helpers.filter
   use: helpers.use
   cond: require 'curator/lib/modules/cond'
