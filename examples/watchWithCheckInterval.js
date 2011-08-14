@@ -2,7 +2,7 @@ var Curator = require('curator');
 
 Curator.newWatch(function () {
   this.name = 'node';
-  this.startCommand = 'node -e a=[];setInterval(function(){a.push(require("../../lib/index"))},0);';
+  this.startCommand = 'node -e a=[];setInterval(function(){a.push(require("curator"))},0);';
   // This process will eat up some memory
   this.checkInterval = 500; // Poll stats every 500ms.
   Curator.setPoll(this); // Apply setPoll behavior on this instance.

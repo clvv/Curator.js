@@ -16,7 +16,7 @@ watchWithOptions = Curator.newWatch ->
   @startOptions = env: curator: 'success'
   @startOptions.env[key] = value for key, value of process.env
   @on 'data', (data) ->
-    @optionsSuccess = true if /success/.test data.toString()
+    @optionsSuccess = /success/.test data.toString()
 
 watchWithUse = Curator.newWatch().use -> @useTest = true
 
