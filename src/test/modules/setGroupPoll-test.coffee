@@ -15,9 +15,8 @@ vows
   .describe('modules/setGroupPoll')
   .addBatch
     'setGroupPoll function':
-      topic: ->
-        setGroupPoll
-      'is a function': (setGroupPoll) ->
+      topic: null
+      'is a function': ->
         assert.isFunction setGroupPoll
       '| a watchGroup instace with setGroupPoll applied after start':
         topic: ->
@@ -38,7 +37,7 @@ vows
           assert.isTrue watchGroup.stat.total_ipcpu >= 0
         '| call `.stop()` on watchGroup instance':
           topic: ->
-            watchGroup.on 'non-running', @callback
+            watchGroup.once 'non-running', @callback
             watchGroup.stop()
             return
           'should be stoped': ->
@@ -47,8 +46,8 @@ vows
             topic: ->
               vows = @
               # Feed some false data that would otherwise fail the tests
-              watchGroup.total_mem = watchGroup.total_pmem = 0
-              watchGroup.total_pcpu = watchGroup.total_ipcpu = -1
+              watchGroup.stat.total_mem = watchGroup.stat.total_pmem = 0
+              watchGroup.stat.total_pcpu = watchGroup.stat.total_ipcpu = -1
               watchGroup.once 'new-stat', ->
                 watchGroup.once 'new-stat', vows.callback
               watchGroup.start()
@@ -59,4 +58,11 @@ vows
               assert.isTrue watchGroup.stat.total_pmem > 0
               assert.isTrue watchGroup.stat.total_pcpu >= 0
               assert.isTrue watchGroup.stat.total_ipcpu >= 0
+            '| call `.stop()` on watchGroup instance again':
+              topic: ->
+                watchGroup.once 'non-running', @callback
+                watchGroup.stop()
+                return
+              'should be stoped again': ->
+                assert.strictEqual watchGroup.running, 0
   .export module

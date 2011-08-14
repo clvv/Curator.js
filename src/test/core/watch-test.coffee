@@ -24,7 +24,7 @@ vows
   .describe('core/watch.js')
   .addBatch
     'A watch instance':
-      topic: watch
+      topic: null
       'is an object': ->
         assert.isObject watch
       'is an instance of Curator.Watch': ->
@@ -46,6 +46,7 @@ vows
           , [ (a, b, c) ->
             @arrayFunctionCalling = a + b + c
           , 1, 2, 3]
+          @callback # Manually call our test functions
         'functions should be called': ->
           assert.isTrue watch.useCalled
           assert.equal watch.arrayFunctionCalling, 6
@@ -75,8 +76,7 @@ vows
             assert.isFalse watch.stdout.readable
             assert.isFalse watch.stderr.readable
     'A watch object created with miminalist config func, after call use with a function':
-      topic: ->
-        watchWithUse
+      topic: null
       'should return itself and the function should be called': ->
         assert.isTrue watchWithUse.useTest
     'A watch object started with custom options':

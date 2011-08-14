@@ -22,9 +22,7 @@
       this.startOptions.env[key] = value;
     }
     return this.on('data', function(data) {
-      if (/success/.test(data.toString())) {
-        return this.optionsSuccess = true;
-      }
+      return this.optionsSuccess = /success/.test(data.toString());
     });
   });
   watchWithUse = Curator.newWatch().use(function() {
@@ -32,7 +30,7 @@
   });
   vows.describe('core/watch.js').addBatch({
     'A watch instance': {
-      topic: watch,
+      topic: null,
       'is an object': function() {
         return assert.isObject(watch);
       },
@@ -56,13 +54,14 @@
       },
       '| call `.use()` with two functions': {
         topic: function() {
-          return watch.use(function() {
+          watch.use(function() {
             return this.useCalled = true;
           }, [
             function(a, b, c) {
               return this.arrayFunctionCalling = a + b + c;
             }, 1, 2, 3
           ]);
+          return this.callback;
         },
         'functions should be called': function() {
           assert.isTrue(watch.useCalled);
@@ -104,9 +103,7 @@
       }
     },
     'A watch object created with miminalist config func, after call use with a function': {
-      topic: function() {
-        return watchWithUse;
-      },
+      topic: null,
       'should return itself and the function should be called': function() {
         return assert.isTrue(watchWithUse.useTest);
       }

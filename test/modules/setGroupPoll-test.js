@@ -13,10 +13,8 @@
   });
   vows.describe('modules/setGroupPoll').addBatch({
     'setGroupPoll function': {
-      topic: function() {
-        return setGroupPoll;
-      },
-      'is a function': function(setGroupPoll) {
+      topic: null,
+      'is a function': function() {
         return assert.isFunction(setGroupPoll);
       },
       '| a watchGroup instace with setGroupPoll applied after start': {
@@ -44,7 +42,7 @@
         },
         '| call `.stop()` on watchGroup instance': {
           topic: function() {
-            watchGroup.on('non-running', this.callback);
+            watchGroup.once('non-running', this.callback);
             watchGroup.stop();
           },
           'should be stoped': function() {
@@ -53,8 +51,8 @@
           '| restart the instance and run the test again': {
             topic: function() {
               vows = this;
-              watchGroup.total_mem = watchGroup.total_pmem = 0;
-              watchGroup.total_pcpu = watchGroup.total_ipcpu = -1;
+              watchGroup.stat.total_mem = watchGroup.stat.total_pmem = 0;
+              watchGroup.stat.total_pcpu = watchGroup.stat.total_ipcpu = -1;
               watchGroup.once('new-stat', function() {
                 return watchGroup.once('new-stat', vows.callback);
               });
@@ -66,6 +64,15 @@
               assert.isTrue(watchGroup.stat.total_pmem > 0);
               assert.isTrue(watchGroup.stat.total_pcpu >= 0);
               return assert.isTrue(watchGroup.stat.total_ipcpu >= 0);
+            },
+            '| call `.stop()` on watchGroup instance again': {
+              topic: function() {
+                watchGroup.once('non-running', this.callback);
+                watchGroup.stop();
+              },
+              'should be stoped again': function() {
+                return assert.strictEqual(watchGroup.running, 0);
+              }
             }
           }
         }

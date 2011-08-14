@@ -29,7 +29,7 @@ vows
         '| restart the watch instance and run the same test agagin':
           topic: ->
             vows = @
-            watch.on 'exit', ->
+            watch.once 'exit', ->
               watch.once 'cond-test', vows.callback
               watch.start()
             return

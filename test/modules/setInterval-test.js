@@ -27,9 +27,7 @@
   });
   vows.describe('modules/setInterval').addBatch({
     'A watch instance with `setInterval(this, callback, 0)` applied': {
-      topic: function() {
-        return watch;
-      },
+      topic: null,
       'has clearIntervals function': function() {
         return assert.isFunction(watch.clearIntervals);
       },

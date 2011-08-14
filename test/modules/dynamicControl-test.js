@@ -21,7 +21,8 @@
         watchGroup.start();
       },
       'will first fire up 3 watch instances': function() {
-        return assert.equal(watchGroup.watchList.length, 3);
+        assert.equal(watchGroup.watchList.length, 3);
+        return watchGroup.stop();
       }
     }
   })["export"](module);

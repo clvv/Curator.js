@@ -28,4 +28,5 @@ vows
         return
       'will first fire up 3 watch instances': ->
         assert.equal watchGroup.watchList.length, 3
+        watchGroup.stop() # Stop the instance after done
   .export module

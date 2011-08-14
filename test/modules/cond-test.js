@@ -34,7 +34,7 @@
         '| restart the watch instance and run the same test agagin': {
           topic: function() {
             vows = this;
-            watch.on('exit', function() {
+            watch.once('exit', function() {
               watch.once('cond-test', vows.callback);
               return watch.start();
             });

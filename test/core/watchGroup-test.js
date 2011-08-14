@@ -10,7 +10,7 @@
   });
   vows.describe('core/watchGroup.js').addBatch({
     'A watchGroup instance': {
-      topic: watchGroup,
+      topic: null,
       'is an object': function() {
         return assert.isObject(watchGroup);
       },

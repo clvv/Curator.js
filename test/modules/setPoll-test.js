@@ -37,7 +37,8 @@
             console.log('Fail stats:');
             console.log("watch.stat.ipcpu: " + watch.stat.ipcpu);
           }
-          return assert.isTrue(bool);
+          assert.isTrue(bool);
+          return watch.stop();
         }
       }
     }

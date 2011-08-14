@@ -32,8 +32,7 @@ vows
   .describe('modules/setInterval')
   .addBatch
     'A watch instance with `setInterval(this, callback, 0)` applied':
-      topic: ->
-        watch
+      topic: null
       'has clearIntervals function': ->
         assert.isFunction watch.clearIntervals
       'has clearTimouts function': ->

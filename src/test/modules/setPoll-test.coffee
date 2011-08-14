@@ -34,4 +34,5 @@ vows
             console.log 'Fail stats:'
             console.log "watch.stat.ipcpu: #{watch.stat.ipcpu}"
           assert.isTrue bool
+          watch.stop() # Stop the instance after done
   .export module

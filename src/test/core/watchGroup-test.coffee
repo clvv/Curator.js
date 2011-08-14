@@ -14,7 +14,7 @@ vows
   .describe('core/watchGroup.js')
   .addBatch
     'A watchGroup instance':
-      topic: watchGroup
+      topic: null
       'is an object': ->
         assert.isObject watchGroup
       'is an instance of Curator.WatchGroup': ->
