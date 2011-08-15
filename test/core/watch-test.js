@@ -10,7 +10,7 @@
   watchWithOptions = Curator.newWatch(function() {
     var key, value, _ref;
     this.name = 'test-with-options';
-    this.startCommand = 'node -e process.env.curator';
+    this.startCommand = 'node -e console.log(process.env.curator)';
     this.startOptions = {
       env: {
         curator: 'success'
@@ -22,7 +22,8 @@
       this.startOptions.env[key] = value;
     }
     return this.on('data', function(data) {
-      return this.optionsSuccess = /success/.test(data.toString());
+      var _ref2;
+      return (_ref2 = this.optionsSuccess) != null ? _ref2 : this.optionsSuccess = /success/.test(data.toString());
     });
   });
   watchWithUse = Curator.newWatch().use(function() {
