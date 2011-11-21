@@ -1,8 +1,12 @@
 (function() {
   var Curator, assert, vows;
+
   vows = require('vows');
+
   assert = require('assert');
+
   Curator = require('curator');
+
   vows.describe('Curator').addBatch({
     'The Curator object': {
       topic: Curator,
@@ -20,4 +24,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

@@ -1,12 +1,17 @@
 (function() {
   var Curator, assert, vows, watch, watchWithOptions, watchWithUse;
+
   vows = require('vows');
+
   assert = require('assert');
+
   Curator = require('curator');
+
   watch = Curator.newWatch(function() {
     this.name = 'test-watch';
     return this.startCommand = 'node';
   });
+
   watchWithOptions = Curator.newWatch(function() {
     var key, value, _ref;
     this.name = 'test-with-options';
@@ -26,9 +31,11 @@
       return (_ref2 = this.optionsSuccess) != null ? _ref2 : this.optionsSuccess = /success/.test(data.toString());
     });
   });
+
   watchWithUse = Curator.newWatch().use(function() {
     return this.useTest = true;
   });
+
   vows.describe('core/watch.js').addBatch({
     'A watch instance': {
       topic: null,
@@ -119,4 +126,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

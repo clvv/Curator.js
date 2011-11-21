@@ -1,26 +1,38 @@
 (function() {
   var Curator, assert, autoRestart, vows, watch, watch2;
+
   vows = require('vows');
+
   assert = require('assert');
+
   Curator = require('curator');
+
   autoRestart = require('curator/lib/modules/autoRestart');
+
   watch = Curator.newWatch(function() {
     this.name = 'test-autorestart';
     this.startCommand = 'date';
     this.maxRetry = 3;
     return autoRestart(this);
   });
+
   watch2 = Curator.newWatch();
+
   watch2.name = 'autorestart=test2';
+
   watch2.startCommand = 'date';
+
   watch2.exitTimes = 0;
+
   autoRestart(watch2);
+
   watch2.on('exit', function() {
     if (this.exitTimes++ > 5) {
       this.removeAllListeners('exit');
       return this.emit('reached', true);
     }
   });
+
   vows.describe('modules/autoRstart').addBatch({
     'A watch instance with `maxRetry` set to 3 and `autoRstart` applied after start': {
       topic: function() {
@@ -51,4 +63,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

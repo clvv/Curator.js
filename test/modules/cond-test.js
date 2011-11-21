@@ -1,14 +1,19 @@
 (function() {
   var Curator, assert, vows, watch;
+
   vows = require('vows');
+
   assert = require('assert');
+
   Curator = require('curator');
+
   watch = Curator.newWatch(function() {
     this.name = 'test-setPoll';
     this.startCommand = 'node';
     this.checkInterval = 80;
     return Curator.setPoll(this);
   });
+
   vows.describe('modules/cond').addBatch({
     'cond function': {
       topic: function() {
@@ -47,4 +52,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

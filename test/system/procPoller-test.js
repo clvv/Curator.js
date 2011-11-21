@@ -1,8 +1,12 @@
 (function() {
   var assert, procPoller, vows;
+
   vows = require('vows');
+
   assert = require('assert');
+
   procPoller = require('curator/lib/system/procPoller');
+
   vows.describe('system/procPoller').addBatch({
     'The procPoller': {
       topic: function() {
@@ -44,4 +48,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

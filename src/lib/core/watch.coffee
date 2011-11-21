@@ -1,4 +1,3 @@
-sys = require 'sys'
 child_process = require 'child_process'
 {EventEmitter} = require 'events'
 

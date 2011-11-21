@@ -1,8 +1,12 @@
 (function() {
   var assert, helpers, vows;
+
   vows = require('vows');
+
   assert = require('assert');
+
   helpers = require('curator/lib/helpers');
+
   vows.describe('helpers').addBatch({
     'The helpers object': {
       topic: helpers,
@@ -50,4 +54,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

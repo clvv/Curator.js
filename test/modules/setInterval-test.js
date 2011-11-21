@@ -1,9 +1,14 @@
 (function() {
   var Curator, assert, setInterval, vows, watch, watchWithStartGrace;
+
   vows = require('vows');
+
   assert = require('assert');
+
   Curator = require('curator');
+
   setInterval = require('curator/lib/modules/setInterval');
+
   watch = Curator.newWatch(function() {
     this.name = 'test-watch';
     this.startCommand = 'node';
@@ -15,6 +20,7 @@
       }
     }, 0);
   });
+
   watchWithStartGrace = Curator.newWatch(function() {
     this.name = 'test-watch';
     this.startCommand = 'node';
@@ -25,6 +31,7 @@
       return this.stop();
     }, 0, 1000);
   });
+
   vows.describe('modules/setInterval').addBatch({
     'A watch instance with `setInterval(this, callback, 0)` applied': {
       topic: null,
@@ -64,4 +71,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

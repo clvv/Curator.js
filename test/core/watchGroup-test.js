@@ -1,13 +1,18 @@
 (function() {
   var Curator, assert, vows, watchGroup;
+
   vows = require('vows');
+
   assert = require('assert');
+
   Curator = require('curator');
+
   watchGroup = Curator.newWatchGroup(function() {
     this.name = 'test-group';
     this.startProcesses = 2;
     return this.startCommand = 'node';
   });
+
   vows.describe('core/watchGroup.js').addBatch({
     'A watchGroup instance': {
       topic: null,
@@ -81,4 +86,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);

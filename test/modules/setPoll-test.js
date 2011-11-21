@@ -1,15 +1,21 @@
 (function() {
   var Curator, assert, setPoll, vows, watch;
+
   vows = require('vows');
+
   assert = require('assert');
+
   setPoll = require('curator/lib/modules/setPoll');
+
   Curator = require('curator');
+
   watch = Curator.newWatch(function() {
     this.name = 'test-setPoll';
     this.startCommand = 'node';
     this.checkInterval = 80;
     return setPoll(this);
   });
+
   vows.describe('modules/setPoll').addBatch({
     'setPoll function': {
       topic: function() {
@@ -43,4 +49,5 @@
       }
     }
   })["export"](module);
+
 }).call(this);
